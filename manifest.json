@@ -1,0 +1,38 @@
+{
+  "manifest_version": 2,
+  "name": "Download MTC",
+  "description": "A little Quine example to show some Download isues",
+  "version": "0.0.3",
+  "icons": {
+    "32": "icons/message-48.png"
+  },
+  "applications": {
+    "gecko": {
+      "id": "download-mtc@pmario.github.io",
+      "strict_min_version": "56.0"
+    }
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "content-script.js"
+      ],
+      "matches": [
+        "file:///*"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    "page-script.js"
+  ],
+  "permissions": [
+    "tabs",
+    "downloads",
+    "<all_urls>"
+  ]
+}

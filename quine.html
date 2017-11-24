@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="styles.css" type="text/css" />
+	<style>
+		body {
+			font-size: 18px;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Download MTC</h1>
+
+	<h2 id="subtitle">Subtitle</h2>
+
+	<h2>Step 0</h2>
+
+	<p>This button will write this file to the downloads directory and open it in a new tab.</p>
+
+	<input id="init" type="button" value="Let's Start!"></input>
+
+	<h2>Step 1</h2>
+	<input id="modify-subtitle" type="button" value="Random Subtitle - CLICK ME!"></input>
+
+	<h2>Step 2</h2>
+
+	<p>The button below will save the quine in the browser downloads folder. Download mechanism is set to "overwrite".</p>
+
+	<input id="save-quine" type="button" value="Overwrite Quine"></input>
+
+	<h2>Step 3</h2>
+
+	<h3>Now reload the page!</h3>
+
+	<p>If you repeat Step-1 and Step-2 and <em>reload the page</em>, that Subtitle should NOT change! <br>So the file did overwrite itself! -> OK</p>
+
+	<h2>Step 4</h2>
+	<p>The next button will save the quine to a "downloads subfolder" and open itself in a new tab. </p>
+
+	<input id="save-quine-to-subdir" type="button" value="Save Quine relative to the file in a subfolder - AND OPEN A NEW TAB "></input>
+
+	<h3>Issue</h3>
+
+	<p>Now Step-1&2 don't work anymore. <b>That's ok</b>, since the program is written that way. <b>BUT ...</b> </p>
+
+	<ul>
+		<li>
+			There is no easy way to fix this problem, other than save a dummyfile, to determine, the actual position of the active quine relative to the downloads folder.
+		</li>
+
+		<li>
+			There should be an web-ext API, that allows the developer to ask for the existing downloads directory browser setting, so the second quine (Step-4) can easily determine the relative position in the download folder.
+		</li>
+	</ul>
+	<p></p>
+
+
+	<script>
+		var html = document.getElementsByTagName("html");
+		var subtitle = document.getElementById("subtitle");
+
+		var init = document.getElementById("init");
+		init.addEventListener("click", handleInit);
+
+		var modSub = document.getElementById("modify-subtitle");
+		modSub.addEventListener("click", handleSubtitle);
+
+		var quineSave = document.getElementById("save-quine");
+		quineSave.addEventListener("click", handleSave);
+
+		var quineSaveToSub = document.getElementById("save-quine-to-subdir");
+		quineSaveToSub.addEventListener("click", handleSaveToSub);
+
+		function handleSubtitle() {
+			subtitle.innerText = "Subtitle " + Math.random();
+		}
+
+		function handleInit() {
+			window.postMessage({
+				txt: html[0].innerHTML,
+				message: "init"
+			}, "*");
+		}
+
+		function handleSave() {
+			window.postMessage({
+				txt: html[0].innerHTML,
+				message: "save"
+			}, "*");
+		}
+
+		function handleSaveToSub() {
+			window.postMessage({
+				txt: html[0].innerHTML,
+				message: "save-to-sub"
+			}, "*");
+		}
+
+	</script>
+</body>
+
+</html>
